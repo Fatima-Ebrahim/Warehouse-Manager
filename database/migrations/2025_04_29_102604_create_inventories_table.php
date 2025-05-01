@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('expiry_date');
             $table->decimal('quantity', 12, 3);
             $table->decimal('quantity_in_base_unit', 12, 3);
-            $table->foreignId('purchase_receipt_item_id')->nullable()->constrained('purchase_receipt_items')->onDelete('set null');
+            $table->foreignId('purchase_receipt_item_id')->nullable()->constrained('purchase_receipt_items')->onDelete('cascade');
             $table->timestamps();
 
             $table->index(['item_id', 'expiry_date']);

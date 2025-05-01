@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('storage_locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('level')->default(0);
@@ -22,7 +21,7 @@ return new class extends Migration
             $table->boolean('is_occupied')->default(false);
             $table->timestamps();
 
-            $table->index(['warehouse_id', 'level']);
+            $table->index(['level']);
         });
     }
 
