@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('storage_locations', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->integer('level')->default(0);
-            $table->decimal('max_weight', 10, 2)->nullable();
-            $table->decimal('max_volume', 10, 2)->nullable();
-            $table->boolean('is_occupied')->default(false);
+            $table->foreignId('shelf_id')->nullable()->constrained()->nullOnDelete();
+            $table->unsignedTinyInteger('level')->default(1);
+            $table->unsignedTinyInteger('position')->default(1);
+            $table->float('max_weight')->default(0);
+            $table->float('current_weight')->default(0);
             $table->timestamps();
 
-            $table->index(['level']);
+            $table->unique(['shelf_id', 'level', 'position']);
+
         });
     }
 

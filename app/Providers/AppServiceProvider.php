@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Warehouse;
+use App\Models\WarehouseCoordinate;
+use App\Repositories\WarehouseDesignRepository;
 use App\Repositories\WarehouseRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,9 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(WarehouseRepository::class, function ($app) {
-            return new WarehouseRepository(new Warehouse());
-        });
+        $this->app->bind(WarehouseDesignRepository::class);
     }
 
     /**
