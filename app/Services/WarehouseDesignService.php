@@ -25,7 +25,24 @@ class WarehouseDesignService
 
     public function createCoordinate(array $data)
     {
-        return $this->warehouseDesignRepository->create($data);
+        $coordinate =  $this->warehouseDesignRepository->create($data);
+        return new WarehouseCoordinateResource($coordinate);
+    }
+    public function assignZone( $coordinateId,  $zoneId)
+    {
+        $coordinate = $this->warehouseDesignRepository->assignZoneToCoordinate($coordinateId, $zoneId);
+        return new WarehouseCoordinateResource($coordinate);
+    }
+    public function createZone(array $data)
+    {
+        $zone = $this->warehouseDesignRepository->createZone($data);
+        return new ZoneResource($zone);
+    }
+
+    public function createShelf(array $data)
+    {
+        $shelf = $this->warehouseDesignRepository->createShelf($data);
+        return new ShelfResource($shelf);
     }
 
 //    public function updateCoordinate($id, array $data)

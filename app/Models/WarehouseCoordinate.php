@@ -1,18 +1,27 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WarehouseCoordinate extends Model
 {
-    use HasFactory, SoftDeletes;
+use SoftDeletes;
 
-    protected $fillable = [
-        'x',
-        'y',
-        'z',
-    ];
+protected $fillable = [
+'zone_id',
+'x',
+'y',
+'z'
+];
+
+public function zone()
+{
+return $this->belongsTo(Zone::class);
+}
+
+public function shelf()
+{
+return $this->hasOne(Shelf::class);
+}
 }

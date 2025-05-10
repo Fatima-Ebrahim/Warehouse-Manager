@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
+            $table->foreignId('storage_unit_id')->nullable()->constrained('storage_units')->cascadeOnDelete();
             $table->foreignId('storage_location_id')->nullable()->constrained('storage_locations')->onDelete('set null');
             $table->string('batch_number')->nullable();
             $table->date('production_date');

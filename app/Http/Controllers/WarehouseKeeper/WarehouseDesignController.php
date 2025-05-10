@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\WarehouseKeeper;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AssignZoneToCoordinateRequest;
+use App\Http\Requests\StoreShelfRequest;
+use App\Http\Requests\StoreZoneRequest;
 use App\Services\WarehouseDesignService;
 use Illuminate\Http\Request;
 
@@ -15,7 +18,7 @@ class WarehouseDesignController extends Controller
         $this->warehouseDesignService = $warehouseDesignService;
     }
 
-    public function index()
+    public function indexCoordinate()
     {
         try {
             $coordinates = $this->warehouseDesignService->getAllCoordinates();
@@ -33,7 +36,7 @@ class WarehouseDesignController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function storeCoordinate(Request $request)
     {
         $validated = $request->validate([
             'coordinates' => 'required|array',
@@ -61,16 +64,36 @@ class WarehouseDesignController extends Controller
                 'message' => 'Failed to create coordinates',
                 'error' => $e->getMessage()
             ], 500);
-        }
+        }}
+        public function assignZone(AssignZoneToCoordinateRequest $request, int $id)
+    {
+        $coordinate = $this->warehouseDesignService->assignZone($id, $request->zone_id);
+        return response()->json($coordinate);
+    }
+    public function storeZone(StoreZoneRequest $request)
+    {
+        $zone = $this->warehouseDesignService->createZone($request->validated());
+        return response()->json($zone, 201);
     }
 
-    public function show($id)
+    public function showCoordinate($id)
     {
         $coordinate = $this->warehouseDesignService->getCoordinateById($id);
         return response()->json($coordinate);
     }
+    public function storeShelf(StoreShelfRequest $request)
+    {
+        $shelf = $this->warehouseDesignService->createShelf($request->validated());
+        return response()->json($shelf, 201);
+    }
 
-//    public function update(Request $request, $id)
+
+    public function destroyCoordinate($id)
+    {
+        $this->warehouseDesignService->deleteCoordinate($id);
+        return response()->json(null, 204);
+    }
+    //    public function update(Request $request, $id)
 //    {
 //        $validated = $request->validate([
 //            'name' => 'nullable|string|max:255',
@@ -83,10 +106,4 @@ class WarehouseDesignController extends Controller
 //        $coordinate = $this->warehouseDesignService->updateCoordinate($id, $validated);
 //        return response()->json($coordinate);
 //    }
-
-    public function destroy($id)
-    {
-        $this->warehouseDesignService->deleteCoordinate($id);
-        return response()->json(null, 204);
-    }
 }
